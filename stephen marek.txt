@@ -1,0 +1,914 @@
+***************************
+-install cli on windows
+	-search aws cmd 
+	-dowload msi
+	-install
+
+-secred id and 	secret access key
+	-go to my security credentials
+	-you will get secred id and access key
+-configure account
+	-go to command line
+	-enter aws configure
+	-paste secret id
+	-enter
+	-paste secret access key
+	-enter
+	-enter region name
+	-enter
+	-default output format(none)
+*******************************
+-aws provide their command line called cloudshell
+-it is available to specific region
+
+************************************************
+Roles for service
+-we can create role to give specific permission
+-suppose you have permission s3 and ec2 needs communicate with s3
+then we will create roles to give access
+*****************************
+Credentials report
+	-
+
+
+*************************
+Summary
+	
+
+****************************************
+Budget Setup
+
+
+******************************************
+EC2
+	-infrastructure as service
+	-storing on ebs
+	-load balancing
+	-
+**EC2 purchasing options
+	-on demand
+	-Reserved
+	-Spot instances
+	-dedicated instance
+	-Dedicated hosts
+
+**private ip
+	-
+
+**elstatic ip
+	
+
+**ec2 placement group
+	-search placement group(it is under network and security in ec2)
+	-
+
+**Elastic Network Interfaces(ENI)
+	-
+
+
+**EC2 hibernate
+	-save ram
+	-faster
+	-we should hibernate instance upto 60 days
+	-mempry should be <150
+
+**EC2 nitro
+	-
+
+
+**VCpu
+	-
+
+**EC2 capacity reservation
+	-
+
+**********************************************************8888
+EC2 instance storage
+
+**EBS
+	-ebs attached to ec2 network virtual drive
+	-elstatic block store
+	-they can be mounted to one instance at a time
+	-allows to persist data even after termination
+	-they are bound specific availability zone
+	-
+*EBS volume types
+	-Genereal purose ssd
+	-Provisioned IOPS SSD
+	-Throughput Optimised ssd
+	-Cold HDD
+**EBS multi attach
+	-
+**EC2 instance store
+	-instance store is attached directly to ec2
+	-it is faster that ebs
+	-limited to 10GB per device
+	-ephemerial storage(non-persistance) i.e.if we terminate or stopped instance then data will be deleted
+	-we can reboot instance in that case data will not deleted
+	-
+**EBS Encryption
+	-
+
+**AMI(Amazon Machine Image)
+	-ami are customisation of an EC2 instance
+	-you add your own software,configuration,operating system,monitoring
+	-faster boot/configuration time because all your software is pre-packed	
+	-can be build specified region and copy to other region
+	-
+
+
+****************************
+Elastic file system(EFS)
+	-available across multiple availability zone
+	-
+
+
+***************************
+Load balancer
+	-
+
+  Types of load balancer
+	1)Classic load balancer
+		-deprecated
+		-response time should be less than interval time
+		-
+	2)Application load balancer
+		-new generation 2016
+		-its layer 7 only(HTTP)
+		-load balancing to multiple HTTP application across machines(target groups)
+		-load balancing to multiple applications on the same machine (ex containers)
+		-support for HTTP/websocket
+		-support redirects (from HTTP to HTTPS for example)
+		-routing table to different target groups
+			routing based on path in URL
+			routing based on hostname URL
+			routing based on query string
+		-this will be fit for microservice & container-based application
+		-has port mapping feature to redirect to dynamic port in ECS
+		-
+	3)Network load balancer
+		-new generation 2017
+		-
+	4)Gateway load balancer
+		-Operates at level 3 layer
+		-
+
+	5)Elastic load balancer
+		-
+	6)Cross zone load balancer
+		-
+
+**Connection draining
+	-connection draining for clb
+	-Deregistration Delay-for ALB & NLB
+	-
+
+
+**Auto Scaling group
+	two types	
+		-predective
+		-Dyamic policy
+		-
+
+
+*******************************************************************************
+Relational Databse Service(RDS)
+**RDS Read replicas and mutli AZ
+	-
+
+**RDS Encryption and security
+	-Encryption at rest
+		-done when create first db instance
+	     or	-unencrypted db => snapshot => copy snapshot as encrypted => create DB from snapshot
+	-Our responsibility	
+		-check the ports/ip/securuty group inbound rule in DB's SG
+		-In database user creation permissions manage through IAM
+		-create database in private subnet
+		-ensure paramater groups or DB is configured to only allow SSL connections
+	-AWS responsibility
+		-No ssh access
+		-no manual db patching
+		-no manual OS patching
+		-No way to audit underlying instance
+
+
+***Aurora
+	-auror replicas -Auto scaling
+
+**Elastic Cache overview
+	-
+	
+   **Elastic cache security for Cache security
+		-all catche in elastic cache do not support authentication
+		-IAM policies on elasticache are only used for aws API level security
+	-redis auth
+		-you can set a password/token when you create redis cluster
+		-this is an extra level of security for your cache(on top of security groups)
+	-
+
+*****************************************
+Route 53
+	-routing policy
+		
+	
+	1)Simple routing policy
+		-lets you configure standards DNS records
+		- typically you can route traffic to single resource
+		-you cant create multiple records that have the same name and type, but you can specify multiple values in the same record such as
+		 multiple address
+		-if multiple values given route 53 returns all the values to the recursive resolver in random order and the resolver returns
+		 the values to the client. The client then chooses a value and resubmits the query
+		-healh checks cannot be attached to simple routing policy
+		-
+
+
+
+********************************
+
+S3 bucket
+	
+	-no uppercase no underscore
+	-3-63 characters long
+	-not am IP
+	-must start with lowercase letter or number
+	-must not end with the suffix -s3alias
+
+  **Objects
+	-objects have a key
+	-object values are the content of the body
+	-max size is 5 TB
+	-if upload more that 5TB then must use multi part
+	
+	-S3 encryption
+		-SSE s3
+		-SSE KMS
+			-
+		-SSE-C
+			-
+	-AWS EC2 instance metadata
+		-
+
+	-S3 MFA delete
+		-
+
+S3 storage classess
+	-S3 standard
+		-if we want more than 3 replication
+		-highly durable
+		-highly available
+		-fast retrival
+		-problem is it is costly
+	-S3 IA (Infrequent access)
+		-same as above feature only less feature
+		-minimum size of the file is 128Kb
+		-object should be alteast 30 days in s3 standard then you can move to s3 IA
+	-S3 One zone -IA
+		-no multiple copies
+		-less durable
+		-data should be atleast 30 days in s3 standard
+		-less critical data we can put here
+	-S3 intellegent tiering
+		-it optimise the cost
+		-moving data to the most effective tiering without performance impact
+		-
+	-S3 glacier
+		-low cost storage class
+		-data archiving
+		-retrival configurable from minutes to hours
+		-infrequntly access
+	-S3 glacier deep archive
+		-cheapest access
+		-retrival time is mimimum 12 hours
+		-
+
+**S3 lifecycle rules
+	-go to management 
+	-you can mention rules 
+		e.g.after 45 days move to iA after 90 days move glacier like that
+	-
+
+**S3 performance rule
+	-
+
+**S3 select and glacier select
+	-
+
+**S3 event notification
+	-
+
+**S3 requester pays
+	-
+
+**Athena
+	-we can write query
+	-create database and table for operation of s3 bucket
+
+**S3 lock policies and glacier vault lock
+
+********************************************
+Amzon S3 security
+
+1)S3 Encryption
+	-object encryption
+	-you can encrypt objects in S3 buckets using one of 4 methods
+	1)server side encryption
+		-server side encryption with amazon S3-managed keys (SSE-S3) enabled by default
+			-managed by aws
+			-object encrypted serve-side
+			-encryption type is AES-256
+			-must set header "x-amz-server-side-encryption":"AES256"
+		-server side encryption with kms keys stored in AWS KMS (SSE-KMS)
+			-encryption using keys handled and managed by AWS KMS(Key Management Service)
+			-KMS advantage: user control +audit key usage using cloudtrail(if use kms key then it log in cloudtrail)
+			-object is encrypted server side
+			-must set header "x-amz-server-side-encryption":"aws:kms"
+			-count towards the kms quota per second(5500,10000,30000 req/s based on region)
+			-you can request a quota increase using the service quotas console
+		-server-side encryption with customer provided keys(SSE-C)	
+			-managed keys outside aws
+			-S3 doesnot stored encryption key you provided
+			-https must be used
+			-encryption key must provided in HTTP headers,for every HTTP request made
+			-
+	2)Client side encrypion
+			-use client libraries such as Amazon S3 client side encryption library
+			-client must encrypt data themselves before sending to Amazon S3
+			-client must decrypt data themselves when retriving from amazon S3
+			-customer fully manages the keys and encryption cycle
+
+	**Amazon S3- Force encryption in Transit  
+		-aws:Secure Transport using we can set S3 policy we can set this flag true or false
+		-
+	**S3 encryption hands on
+		-
+	
+	**CORS
+		-cross origin resource sharing
+		-origin=scheme(protocol)+host(domain)+port
+		  example: https://www.example.com (implied port is 443 for HTTPS, 80 for http) 
+		-web browser based mechanism to allow requests to other origins while visiting the main origin 
+		-same origin http://example.com/app1 & http://example.com/app2
+		-different origins: http://www.example.com & http://other.example.com
+		-the request wont allow be fulfilled unless the other origin allows for the requests, using cors headers(example: Access-control-allow-origin)
+		-
+		
+	
+*******************************************
+
+Cloudfront
+	-it is CDN(Content Delievry Network)
+	-cache the data for faster performance
+	-
+
+**cloufront signed URL
+	-
+
+**Price classes
+	-price class all
+	-price class 200
+		-
+	-price class 100
+		-
+
+**field level encryption
+	-for sensitive data
+
+**cache invalidation
+	-
+
+**Global accelator
+	-
+
+
+******************************************************************************
+AWS Snow Family
+	-AWS snowcone
+	-AWS snowball
+	-AWS snowmobile
+	
+AWS FSX for windows(File server)
+	-FSx for windows is fully managed windows file system share drive
+	-supports SMB protocol & windows NTFS
+	-can be mount on linux EC2 instance
+	-support mircrosoft distrubuted File System namespace(group file across multiple FS)
+	-scale up to 10s of GB/s millions of IOPS, 100s PB of data
+	-storage option
+		-SSD
+		-HDD
+	-can be accessed from your on-premises infrastructure (VPN or Direct connect)
+	-can be configured to multi AZ
+	-data is backed up daily to S3
+
+AWS FSx for lusture
+	-parallel distributed file system for large-scale computing
+	-lustre dereived from Linux and cluster
+	-machine learning and High perfomance Computing(HPC) this is the keyword
+	-video processing,financial modeling, Electonic Design automation
+	-scales up to 100s 
+	-storage options
+		-SSD
+		-HDD
+	-Seamless integration with S3
+	-can be used from on-premises servers(VPN or direct connect)
+	-
+
+AWs FSx file sytem deployment options
+	-
+
+**AWS storage gateway
+	-bridge between on premise data and cloud data in s3
+	-3 types of storage gateway
+		-File Gateway
+			-Configured S3 buckets are accessible using NFS and SMB protocol
+			-Supports S3 standard S3 IA, S3 one zone IA
+			-Bucket access using IAM roles for each file gateway
+			-most recently used data is cached in the file gateway
+			-can be mounted on many servers
+			-integrated with active directory for user authentication
+		-Volume Gateway
+			-block storage using iCSI protocol backed by S3
+			-Backed by EBS snapshot which can help restore on-premise volumes
+			-cached volumes: low latency access to most recent data
+			-stored volumes: entire dataset is on premise, scheduled backups to S3
+		-Tape Gateway
+			-some compnies have backup processes using physical tapes
+			-with tape gateway, compnies use the same processes but in cloud
+			-virtual tape library(VTL) backed by Amazon s3 and glacier
+			-back up data using existing tape-based processes(and iSCI interface)
+			-works with leading backup software vendors
+			
+		-Storage gateway hardware appliance
+			-
+**AWS Datasync
+	-move large amount of data to and from
+	-on premises / other cloud to AWS(NFS,SMB,HDFS,S3 API...) need agent
+	-AWS to AWS (different storage services) - no agent needed
+	-can synchronise to
+		-Amazon S3(any storage classes - including glacier)
+		-Amazon EFS
+		-Amazon FSx (windows,Lustre, NetApp,OpenZFS..)
+	-replication can schedule hourly,weekly,daily,hourly
+	-file permission and metadata are preserved(NFS posix,SMB...)
+	-one agent task can use 10 Gbps, can setup a bandwidth limit
+	-aws datasync can be use to trasfer data between AWS storage service
+	-
+
+**
+
+**AWS storage gateway summary(Exam tip)
+		-
+
+	
+***********************************************************
+SQS
+	-Oldest offering(over 10 years old)
+	-fully manged service used to decouple applications
+	-Attributes
+		-unlimited number of messages in queue
+		-default retention of messages: 4 days, max of 14 days
+		-low latency(< 10 ms on publish and recieve)
+		-limitation of 256 kb per message sent
+		
+	-Can have duplicate messages(at least once delievery, occasionaly)
+	-
+
+**Visibility time
+	-not visible for specific time
+	-default visibility time 30Sec
+	-min 0 sec and max 12 hours
+	-
+
+-Dead letter queue
+	-if consumer fails to process a message within the visibility timeout the message goes back to the queue
+	-we can set a threashhold of how many times a message can go back to the queue 
+	-after MaxiumRecieves threashold is exceeded the message goes into a dead leatter queue
+	-useful for debugging
+	-make sure to process the messages in the DLQ before they expire
+	-good to set retention period of 14 days in the DLQ
+	-MaxiumRecieves between 1 and 1000
+	-
+-Delay queue
+	-delay the read message time
+	-min 0 max 15 minutes
+
+-Long Polling
+	-when a consumer request messages from the queue, it can optionally  wait for messages to arrive if there are none
+	 in the quue this is called long polling
+	- long polling decreases the number of API calls made to SQS while increasing the efficiency and latency of your application
+	-long p
+
+-SQS request response
+	- 	    
+
+
+
+**SNS
+	-if we want to send one message to many receivers
+	-event producer only sends message to one SNS topic
+	-many recievers of SNS topic notification
+	-each subscriber to the topic will get all the messages(note: new feature to filter message)
+	-up to 12,500,000 subscription per topic
+	-10000 topic limit
+	-many aws services can send data directly to SNS  for notification
+	
+	*
+	-how to publish
+		-Topic publish(using the SDK)
+			-create a topic
+			-create subscription
+			-publish to the topic
+	-Direct publish(for mobile apps SDK)
+		-create a platform application
+		-create a platform endpoint
+		-publish to the platform endpoint
+
+	
+	-SNS security
+		-encryption
+		   -in flight encryption using HTTPS API
+		   -At rest encryption using KMS keys
+		   -client side encryption if the client wants to perform encryption/decryption itself
+		
+		-Access controls
+			-IAM policies to regulate access to the SNS API
+		-SNS Access policies (similar to S3 bucket policies)
+			-useful for cross-account access to SNS topics
+			-useful for allowing other services (S3.....) to write SNS topic
+		-
+
+	**SNS+SQS: Fan Out
+		-push once in SNS, receive in all SQS queues that are subscribers
+		-fully decoupled, no data loss 
+		-SQS allws for: data persistance,delayed processing and retries of work
+		-ability to add more SQS subscribers over time
+		-make sure your SQS queue access policy allows for SNS to write
+		-cross-region delivery: works with SQS queue in other regions
+	**Application: S3 Events to multiple queues
+		-
+
+*******************************************************
+
+Kinesis 
+	-makes it easy to collect process and analyse streaming data in real time
+	-ingest real-time data such as:application logs,metrics, website clickstreams IOT telemetry data....
+	-it is divided into shards
+	
+**
+	kinesis Data Streams-capture,process,and store data streams
+	kinesis Data Firehose:load data streams into AWS data stores
+	kinesis Data analytics: analyse data streams with SQL or apache link
+	kinesis video streams: capture,process and store video streams
+	
+
+	kinesis data streams	
+		-retention between 1 day to 365 days
+		-ability to reprocess (replay) data
+		-once data is inserted in kinesis,it cant be deleted(immutability)
+		-data that shares the same partition goes to the same shard(ordering)
+		-producers:AWS SDK,kinesis producer
+		-Consumers
+		  -write your own:kinesis client library(KCL), AWS SDK
+		  -managed: AWS Lambada,kinesis data firehose,kinesis data analytics,
+		  -
+	Kinesis data streams -capacity modes
+		-provisioned mode
+		-on-demand mode
+			
+
+*************************************************
+Lambada	
+	-
+
+Lambada limits
+	
+Lambada@Edge
+
+**********************
+Athena
+	-query service to use normal sql to evaluate data in amazon s3
+	-you can point your AWS athena to any other database and query it with standard SQL
+	-
+
+******************
+Redshift
+	-redshift is based on postgreSQL, but not used for OLTP
+	-its OLAP
+	-10x better performance than other data warehouses,scale to PBs of data
+	-columnar storage of data (instead of row based) & parallel query engine
+	-pay as you go based on the instances provisined
+	-has a sql interface for performing the queries
+	-BI tools such as AWS Quicksight or tableau integrate with it
+	-vs Athena: faster queries /joins/aggregations thanks to indexes
+	-
+
+
+**Redshift cluster
+	-aws redshift data warehouse is collection of computing resource called nodes which are orginsed
+	 into a group called cluster
+	-each cluster runs an amazon redshift engine and contains one or more databases
+	-leader node
+		-for query planning,results aggregation
+	-compute node
+		-for performing the queries, send results to leader
+	-you provision the node size in advance
+	-you can used reserved instances for cost savings
+	-
+
+**Redshift -Snapshot & DR
+	-Redshift has "Multi-AZ" mode for some clusters
+	-snapshots are point in time backups of a cluster, stored internally in S3
+	-snapshots are incremental(only what has changed is saved)
+	-you can restore a snapshot into a new cluster
+	-automated:
+		-every 8 hours,every 5 GB or on a schedule. Set retention
+	-manual
+		-snapshot is retained until you delete it
+	-you can configure amazon redshift to automatically copy snapshots(automated or manual) of cluster to another AWS region
+	-
+
+***
+Amazon Opensearch Service
+	-amazon openserach is successor to amazon elasticserch
+	-
+
+***
+EMR
+	-EMR stands for "Elastic MapReduce"
+	-EMR helps creating Hadoop clusters (Big Data) to analyse and process vast amount of data
+	-the clusters can be made of hundreads of EC2 instances
+	-EMR comes bundeled with Apache spark,HBase,Presto,Flink
+	-EMR takes care of all the provisioning and configuration
+	-auto scaling and integrated with spot instances
+	-use cases: data processing, machine learning,web indexing,big data
+
+
+EMR- Node types & purchasing
+    -Master node
+	-manage the cluster,coordinate,manage health-long running
+
+    -Core nodes
+	-run tasks and store data-long running
+    -Task node
+	-just to run tasks-usually spot
+    
+    -Purchasing options
+	-on demand
+	-reserved
+	
+**********************************
+Quicksight
+	-it is similar like poer BI tool
+	-serverless machine learning powered business intelligence service to create interactive dashboards
+	-fast,automatically scalable embeddable with per session pricing
+	-Use case
+		-business analytics
+		-building visualisations
+		-perform ad hoc analysis
+	-integrate with RDS,Aurora,Athena,Redshift,S3
+	-In memory computation using SPICE engine if data is imported into QuickSight
+	-Enterprise edition:possibility to setup column level security(CLS)
+	-
+
+
+**Quicksight integrations
+	-
+
+**Quicksight - Dashboard & analysis
+	-Define users(standard versions) and Groups(enterprise version)
+		-these users & groups only exist within quicksight,not IAM
+
+***************************************************************
+AWS glue
+	-managed extract,transform and load(ETL) service
+	
+
+************************************
+AWS lake formation
+	-data lake
+		-central place to have all your data for analytics purposes
+	-fully managed service that makes it easy to setup a data lake in days
+	-
+
+**************************************
+MSK-aws managed streaming for apache kafka
+	-alternative to amazon kinesis
+	-fully managed apache kafka on aws
+		-allow you create,update,delete clusters
+		-MSK creates & manages kafka brokers nodes & zookeeper nodes for you
+		-deploy the msk cluster in your vpc,multi-az(up to 3 for HA)
+		-Automatic recovery from common apache kafka failure
+		-data is stored in EBS volumes
+		-
+	-MSK serverless
+		-run apache kafka on MSK without managing the capacity
+		-msk automatically provisions resources and scales compute & storage
+		-
+
+
+*********************
+Big data ingestion pipeline
+
+
+********************************
+				Machine learninig
+
+**Amazon rekognition
+	-find objects,people,text,scenes in images and videos using ML
+	-facial analysis and facial search to do user verification,people counting
+	-create a database of familiar faces or compare against celebraties
+	
+	use cases
+	 -labeling
+	 -content moderation
+	 -text detection
+	 -face detection and analysis(gender,age range,emotions)
+	 -face search and verification
+	 -celebrity recognition
+	 -pathing (ex: for sports game analysis)
+
+**Transcribe
+	-automatically convert speech to text
+	-uses a deep learning process called automatic speech recognition (ASR) to convert speech to text quickly and accurately
+	-automatically remove personally Identifible Information(PII) using redaction 
+	-supports automatic langauge Identification for multi-lingaul audio
+
+
+**Amazon Polly
+	-Turn text into lifelike speech using deep learning
+	-allowing you to create applications that talk
+	-
+
+**Amazon Lex
+	-same technology that powes alexa
+	-Automatic Speech Recognition(ASR) to convert speech to text
+	-Natural Langauge Understanding to recognize the intent of text,callers
+	-helps build chatbots,call center bots
+
+**Amazon connect
+	-receive calls,create contact flows,cloud-based virtual contact center
+	-can integrate with other CRM systems or AWS
+	-No upfront payments,80% cheaper than traditional contact center solutions
+	
+**Amazon comprehend
+	-For Natural Langauge Processing-NLP
+	-Fully managed and serverless service
+	-uses machine learning to find insights and relationship in text
+		-language of the text
+		-extracts key phrases,places,people,brands or events
+		-understands how positive or negative the text is
+		-analyse text using tokenisazation and part of speech
+		-automatically organizes a collection of the text files by topic
+	-Sample use case
+	 	-analyse the customer interactions(emails) to find what leads to a positive or negative exprience
+		-create and group by articles by topics that coprehend will uncover
+		-
+
+**Amazon coprehend medical
+	-amazon coprehend medical detects and returns useful information in unstrctured clinincal text
+		-physician notes
+		-discharge summeries
+		-test results
+		-case notes
+	-uses NLP to detect PHI- DetectPHI API
+
+**Sagemaker
+	-it use build ML models
+	-
+
+**amazon forecast
+	-
+
+**Kendra
+	-fully managed document search service powered by machine learning
+	-Extract answers from within a document(text,pdf,HTML,PowerPoint,MS Word,FAQ)
+
+**Amazon personalize
+	-fully managed ML service to build apps with real time personalised recommendations
+	-example:personalised product recommendations/re-ranking,customised direct marketing
+		-example: user bought gardning tools,provide recommendations on the next one to buy
+	-same technology used by Amazon.com
+
+**Amazon Textract
+	-automatically extracts text,handwriting, and data from any scanned documents using AI and ML
+	-
+
+******************************************************************
+IAM Advanced concept
+	-
+
+**Organizations
+	-global service
+	-allows to manage multiple AWS accounts
+	-the main account is the management account
+	-
+	
+*********************************
+Disaster Recovery & Migration
+	-Disaster recovery strategies
+	-
+
+*********
+Database Migration Service(DMS)
+	-quickly and securely migrate databases to AWS, resilient,self healing
+	-the source database remains available during the migration
+	-
+
+
+***AWS backup
+	-
+
+
+**Application migration service
+	-AWS Application Discovery service
+		-plan migration projects by gathering information about on-premises data centers
+		-server utilisation data and dependency mapping are important for migrations
+	-	
+
+	AWS application Migration Service(MGN)
+		-AWS evolution of cloudEndure migration replacing AWS server migration Service(SMS)
+		-Lift and Shift(rehost) solution which simplify migrating applications to AWS
+		-Converts your physical virtual and cloud based servers to run natively on AWS
+		-
+
+
+*******************
+High performing computation 
+	-screenshots are taken you can refer
+	
+
+*********************************
+Oter Service
+
+	-Cloudformation
+		-
+
+	-Amazon Simple Email Service(Amazon SES)
+		-fully managed service to send emails securely,globally and at scale
+		-allows inbound/outbound emails
+		-reputation dashboard,perfomance insights,anti-spam feedback
+		-
+
+	-Amzon pinpoint
+		-Scalable 2-way (outbound/inbound) marketing communication service
+		-supports email, SMS, push,voice and in-app messaging
+		-adavanced version of SNS or SES
+		-
+
+	-Session Manager
+		-
+
+***System manager 
+
+	    - System manager run command
+		-Execute a document (=script) or just run a command
+		-Run command across multiple instances(using resource groups)
+		-No need for SSH
+		-command output can be shown in the AWS console, sent to S3 bucket or cloudwath logs
+		-send notification to SNS about command status(In progress,Success,Failed)
+		-Integrated with IAM & cloudTrail
+
+
+	   -System manager 
+	   -System manager
+	   -System manager
+
+
+*****************************
+	AWS cost explorer
+		-forecast usage
+		-
+
+
+*****************************
+
+Amazon Elastic Transcoder
+	-Elastic transcoder is used to convert media files in S3 into media files in the formats required by
+	 consumer playback devices(phones etc)
+
+
+***************************
+AWS batch
+	-fully managed batch processing at any 	scale
+	-efficiently run 100000s of computing batch jobs on AWS
+	-
+	batch vs lambada
+		-not time limit vs time limit
+		-any runtime as long as its packed as a docker image vs limited temporary disk space
+		-rely on EBS/ instance store for disk space vs serverless
+		-
+
+*******************************
+AWS AppFlow
+	-Fully mmanage
+
+	
+*****************
+AWS well architecture tool and framework
+
+
+******************************
+AWS trusted Advisor
+	-AWS Trusted Advisor provides recommendations that help you follow AWS best practices
+	-Trusted Advisor evaluates your account by using checks
+	-These checks identify ways to optimize your AWS infrastructure, improve security and performance, reduce costs, and monitor service quotas
+	-
