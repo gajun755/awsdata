@@ -59,8 +59,17 @@ EC2
 	
 
 **ec2 placement group
+	-placement groups are logical groupings or clusters of instances in the selected aws region
+	- 
 	-search placement group(it is under network and security in ec2)
-	-
+	-types of placement group
+		-cluster
+			-same rack(means same hardware) & same AZ
+			-low latency in single availability zone
+		-partition
+			-across many different partition(which rely on different set of racks) within AZ
+		-spread
+			-small group of instances across distinct underlying hardware
 
 **Elastic Network Interfaces(ENI)
 	-
@@ -386,7 +395,7 @@ AWS Snow Family
 	-AWS snowball
 	-AWS snowmobile
 	
-AWS FSX for windows(File server)
+AWS 	 for windows(File server)
 	-FSx for windows is fully managed windows file system share drive
 	-supports SMB protocol & windows NTFS
 	-can be mount on linux EC2 instance
@@ -416,7 +425,7 @@ AWs FSx file sytem deployment options
 	-
 
 **AWS storage gateway
-	-bridge between on premise data and cloud data in s3
+	-bridge between on premise data and cloud data
 	-3 types of storage gateway
 		-File Gateway
 			-Configured S3 buckets are accessible using NFS and SMB protocol
@@ -438,9 +447,22 @@ AWs FSx file sytem deployment options
 			-works with leading backup software vendors
 			
 		-Storage gateway hardware appliance
-			-
+
+*******
+AWS transfer family
+	-a fully managed service for file transfer into and out of amazon S3 or Amazon EFS using the FTP protocol
+	-Supported protocols
+		-Secure Shell (SSH) File Transfer Protocol (SFTP): version 3
+
+		-File Transfer Protocol Secure (FTPS)
+		-File Transfer Protocol (FTP)
+		-Secure File Transfer protocol(SFTP)
+	-
+
+
+
 **AWS Datasync
-	-move large amount of data to and from
+	-move large amount of data to and from i.e. on premise to cloud and vice versa
 	-on premises / other cloud to AWS(NFS,SMB,HDFS,S3 API...) need agent
 	-AWS to AWS (different storage services) - no agent needed
 	-can synchronise to
@@ -453,7 +475,9 @@ AWs FSx file sytem deployment options
 	-aws datasync can be use to trasfer data between AWS storage service
 	-
 
-**
+*****
+Difference btw AWS DataSync vs. AWS Transfer Family
+	-
 
 **AWS storage gateway summary(Exam tip)
 		-
@@ -814,7 +838,8 @@ Database Migration Service(DMS)
 	-
 
 
-***AWS backup
+*************
+	AWS backup
 	-
 
 
