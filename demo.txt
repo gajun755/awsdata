@@ -1,4 +1,1 @@
-This is for demo file for aws.
-Save the date 27 November 2023
-Finally done
-Be patience you will got definitely
+This is for demo file for aws. AWS is cloud platform.
